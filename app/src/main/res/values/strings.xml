@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="TITLE_MOVIE_DETAILS">Movie Details</string>
+    <string name="ACCESIBILITY">Movie Poster</string>
+    <string name="SYNOPSIS">Synopsis</string>
+    <string name="API_KEY">896ec80b3f910352dd1e55c238d223ab</string>
+</resources>
