@@ -12,6 +12,8 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String BASE_URL = "https://api.themoviedb.org/3/movie/";
     private static final String API_PARAM = "api_key";
+
+    // Place your API key here
     private static final String API_KEY = "";
 
     public URL buildUrl(String sortBy) {
