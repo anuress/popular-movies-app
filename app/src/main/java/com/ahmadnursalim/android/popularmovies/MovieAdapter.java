@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.ahmadnursalim.android.popularmovies.DataModel.Movie;
+import com.ahmadnursalim.android.popularmovies.Utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewholder> {
     private LayoutInflater layoutInflater;
     private Context context;
     private final MovieAdapterOnClickHandler movieAdapterOnClickHandler;
+    private NetworkUtils networkUtils;
 
     interface MovieAdapterOnClickHandler {
         void onClick(Movie movie);
@@ -45,7 +48,7 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewholder> {
     public void onBindViewHolder(MovieViewholder holder, int position) {
         Movie movie = movieList.get(position);
 
-        Picasso.with(context).load(movie.getPoster()).into(holder.moviePoster);
+        Picasso.with(context).load("http://image.tmdb.org/t/p/w185/" + movie.getPoster()).into(holder.moviePoster);
     }
 
     void setMovieList(ArrayList<Movie> list) {

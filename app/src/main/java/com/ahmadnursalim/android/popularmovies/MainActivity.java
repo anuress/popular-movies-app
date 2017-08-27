@@ -2,6 +2,7 @@ package com.ahmadnursalim.android.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.ahmadnursalim.android.popularmovies.Data.MovieContract;
+import com.ahmadnursalim.android.popularmovies.DataModel.Movie;
 import com.ahmadnursalim.android.popularmovies.Utilities.JsonUtils;
 import com.ahmadnursalim.android.popularmovies.Utilities.NetworkUtils;
 
@@ -28,9 +31,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private ProgressBar loadingIndicator;
     private ArrayList<Movie> movieList;
 
+    private static final String[] MOVIE_COLUMNS = {
+            MovieContract.MovieEntry._ID,
+            MovieContract.MovieEntry.COLUMN_MOVIE_ID,
+            MovieContract.MovieEntry.COLUMN_TITLE,
+            MovieContract.MovieEntry.COLUMN_IMAGE,
+            MovieContract.MovieEntry.COLUMN_OVERVIEW,
+            MovieContract.MovieEntry.COLUMN_RATING,
+            MovieContract.MovieEntry.COLUMN_DATE
+    };
+
+    public static final int COL_MOVIE_ID = 1;
+    public static final int COL_TITLE = 2;
+    public static final int COL_IMAGE = 3;
+    public static final int COL_OVERVIEW = 4;
+    public static final int COL_RATING = 5;
+    public static final int COL_DATE = 6;
+
     @Override
     public void onClick(Movie movie) {
         Intent intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra("id", movie.getId());
         intent.putExtra("title", movie.getTitle());
         intent.putExtra("poster", movie.getPoster());
         intent.putExtra("rating", movie.getRating());
@@ -87,9 +108,52 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             case R.id.action_sort_by_rating :
                 loadMovie("top_rated");
                 break;
+            case R.id.action_sort_by_favorite:
+                new FetchFavoriteMoviesTask(getApplicationContext()).execute();
         }
 
         return true;
+    }
+
+    public class FetchFavoriteMoviesTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
+
+        private Context mContext;
+
+        public FetchFavoriteMoviesTask(Context context) {
+            mContext = context;
+        }
+
+        private ArrayList<Movie> getFavoriteMoviesDataFromCursor(Cursor cursor) {
+            ArrayList<Movie> results = new ArrayList<>();
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Movie movie = new Movie(cursor);
+                    results.add(movie);
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+            return results;
+        }
+
+        @Override
+        protected ArrayList<Movie> doInBackground(Void... params) {
+            Cursor cursor = mContext.getContentResolver().query(
+                    MovieContract.MovieEntry.CONTENT_URI,
+                    MOVIE_COLUMNS,
+                    null,
+                    null,
+                    null
+            );
+            return getFavoriteMoviesDataFromCursor(cursor);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Movie> movies) {
+
+            if (movies != null) {
+                movieAdapter.setMovieList(movies);
+            }
+        }
     }
 
     private class FetchMovie extends AsyncTask<String, Void, Movie[]> {
@@ -111,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             try {
                 response = networkUtils.getResponse(url);
-                parsedJson = jsonUtils.parseJson(response);
+                parsedJson = jsonUtils.parseMovieJson(response);
             } catch (Exception e) {
                 e.printStackTrace();
             }

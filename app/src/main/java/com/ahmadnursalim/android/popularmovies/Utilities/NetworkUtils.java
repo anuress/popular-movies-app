@@ -32,6 +32,38 @@ public class NetworkUtils {
         return url;
     }
 
+    public URL buildUrlTrailer(String id) {
+        String requestUrl = BASE_URL + id + "/videos";
+        Uri uri = Uri.parse(requestUrl).buildUpon().
+                appendQueryParameter(API_PARAM, API_KEY).build();
+
+        URL url = null;
+
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public URL buildUrlReview(String id) {
+        String requestUrl = BASE_URL + id + "/reviews";
+        Uri uri = Uri.parse(requestUrl).buildUpon().
+                appendQueryParameter(API_PARAM, API_KEY).build();
+
+        URL url = null;
+
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
     public String getResponse(URL url) throws IOException {
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 

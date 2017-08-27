@@ -5,5 +5,9 @@
     <string name="TITLE_MOVIE_DETAILS">Movie Details</string>
     <string name="ACCESIBILITY">Movie Poster</string>
     <string name="SYNOPSIS">Synopsis</string>
-    <string name="API_KEY">896ec80b3f910352dd1e55c238d223ab</string>
+    <string name="TRAILERS">Trailers</string>
+    <string name="REVIEWS">Reviews</string>
+    <string name="ACTION_FAVORITE">Favorite</string>
+    <string name="ACTION_UNFAVORITE">Unfavorite</string>
+    <string name="content_authority">com.ahmadnursalim.android.popularmovies</string>
 </resources>
