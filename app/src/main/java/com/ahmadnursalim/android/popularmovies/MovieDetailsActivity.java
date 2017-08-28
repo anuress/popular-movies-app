@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MovieDetailsActivity extends AppCompatActivity {
+public class MovieDetailsActivity extends AppCompatActivity implements TrailerAdapter.TrailerAdapterOnClickHandler{
 
     ImageView movieDetailPoster;
 
@@ -67,7 +67,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieTrailers = (LinearListView) findViewById(R.id.detail_trailers);
         reviewTrailers = (LinearListView) findViewById(R.id.detail_review);
 
-        trailerAdapter = new TrailerAdapter(this, new ArrayList<Trailer>());
+        trailerAdapter = new TrailerAdapter(this, new ArrayList<Trailer>(), this);
         movieTrailers.setAdapter(trailerAdapter);
 
         reviewAdapter = new ReviewAdapter(this, new ArrayList<Review>());
@@ -181,6 +181,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(Trailer trailer) {
+        String key = trailer.getKey();
+        final String BASE_URL = "http://www.youtube.com/watch";
+        final String PARAMS = "v";
+
+        Uri uri = Uri.parse(BASE_URL).buildUpon().appendQueryParameter(PARAMS, key).build();
+
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
     class FetchTrailerTask extends AsyncTask<String, Void, Trailer[]> {

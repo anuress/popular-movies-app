@@ -18,11 +18,17 @@ public class TrailerAdapter extends BaseAdapter {
     private final Context mContext;
     private final LayoutInflater mInflater;
     private ArrayList<Trailer> trailerList;
+    private final TrailerAdapterOnClickHandler onClickHandler;
 
-    public TrailerAdapter(Context mContext, ArrayList<Trailer> trailerList) {
+    interface TrailerAdapterOnClickHandler {
+        void onClick(Trailer trailer);
+    }
+
+    public TrailerAdapter(Context mContext, ArrayList<Trailer> trailerList, TrailerAdapterOnClickHandler onClickHandler) {
         this.mContext = mContext;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.trailerList = trailerList;
+        this.onClickHandler = onClickHandler;
     }
 
     public void remove() {
@@ -61,6 +67,8 @@ public class TrailerAdapter extends BaseAdapter {
         View rootview = view;
         ViewHolder viewHolder;
 
+        final int position = i;
+
         if (view == null) {
             rootview = mInflater.inflate(R.layout.item_trailer, viewGroup, false);
             viewHolder = new ViewHolder(rootview);
@@ -75,6 +83,15 @@ public class TrailerAdapter extends BaseAdapter {
         Picasso.with(getmContext()).load(yt_thumbnail_url).into(viewHolder.imageView);
 
         viewHolder.nameView.setText(trailer.getName());
+
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Trailer selectedMovie = trailerList.get(position);
+
+                onClickHandler.onClick(selectedMovie);
+            }
+        });
 
         return rootview;
     }
