@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ahmadnursalim.android.popularmovies.DataModel.Movie;
-import com.ahmadnursalim.android.popularmovies.Utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewholder> {
     private LayoutInflater layoutInflater;
     private Context context;
     private final MovieAdapterOnClickHandler movieAdapterOnClickHandler;
-    private NetworkUtils networkUtils;
 
     interface MovieAdapterOnClickHandler {
         void onClick(Movie movie);

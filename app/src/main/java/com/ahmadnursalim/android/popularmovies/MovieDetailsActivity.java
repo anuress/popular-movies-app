@@ -194,7 +194,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
-    class FetchTrailerTask extends AsyncTask<String, Void, Trailer[]> {
+    private class FetchTrailerTask extends AsyncTask<String, Void, Trailer[]> {
         NetworkUtils networkUtils = new NetworkUtils();
         JsonUtils jsonUtils = new JsonUtils();
 
@@ -202,7 +202,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
         protected Trailer[] doInBackground(String... strings) {
             URL url = networkUtils.buildUrlTrailer(strings[0]);
 
-            String response = "";
+            String response;
             Trailer[] parsedJson = null;
 
             try {
@@ -223,7 +223,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
         }
     }
 
-    class FetchReviewTask extends AsyncTask<String, Void, Review[]> {
+    private class FetchReviewTask extends AsyncTask<String, Void, Review[]> {
         NetworkUtils networkUtils = new NetworkUtils();
         JsonUtils jsonUtils = new JsonUtils();
 
@@ -231,7 +231,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements TrailerAd
         protected Review[] doInBackground(String... strings) {
             URL url = networkUtils.buildUrlReview(strings[0]);
 
-            String response = "";
+            String response;
             Review[] parsedJson = null;
 
             try {

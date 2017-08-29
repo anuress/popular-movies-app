@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-public class TrailerAdapter extends BaseAdapter {
+class TrailerAdapter extends BaseAdapter {
     private final Context mContext;
     private final LayoutInflater mInflater;
     private ArrayList<Trailer> trailerList;
@@ -24,20 +24,20 @@ public class TrailerAdapter extends BaseAdapter {
         void onClick(Trailer trailer);
     }
 
-    public TrailerAdapter(Context mContext, ArrayList<Trailer> trailerList, TrailerAdapterOnClickHandler onClickHandler) {
+    TrailerAdapter(Context mContext, ArrayList<Trailer> trailerList, TrailerAdapterOnClickHandler onClickHandler) {
         this.mContext = mContext;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.trailerList = trailerList;
         this.onClickHandler = onClickHandler;
     }
 
-    public void remove() {
+    private void remove() {
         if (trailerList.size() > 0) {
             trailerList.clear();
         }
     }
 
-    public void add(ArrayList<Trailer> newTrailerList) {
+    void add(ArrayList<Trailer> newTrailerList) {
         remove();
         this.trailerList = newTrailerList;
         notifyDataSetChanged();
@@ -58,7 +58,7 @@ public class TrailerAdapter extends BaseAdapter {
         return i;
     }
 
-    public Context getmContext() {
+    private Context getmContext() {
         return mContext;
     }
 
@@ -96,11 +96,11 @@ public class TrailerAdapter extends BaseAdapter {
         return rootview;
     }
 
-    public static class ViewHolder {
-        public final ImageView imageView;
-        public final TextView nameView;
+    private static class ViewHolder {
+        final ImageView imageView;
+        final TextView nameView;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             imageView = (ImageView) view.findViewById(R.id.trailer_image);
             nameView = (TextView) view.findViewById(R.id.trailer_name);
         }

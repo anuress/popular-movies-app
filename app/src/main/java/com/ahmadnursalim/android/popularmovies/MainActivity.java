@@ -115,11 +115,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         return true;
     }
 
-    public class FetchFavoriteMoviesTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
+    private class FetchFavoriteMoviesTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
         private Context mContext;
 
-        public FetchFavoriteMoviesTask(Context context) {
+        private FetchFavoriteMoviesTask(Context context) {
             mContext = context;
         }
 
@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         protected void onPostExecute(ArrayList<Movie> movies) {
 
             if (movies != null) {
+                movieList = movies;
                 movieAdapter.setMovieList(movies);
             }
         }
